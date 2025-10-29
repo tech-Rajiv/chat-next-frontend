@@ -32,14 +32,11 @@ const SignupForm = () => {
 
     console.log("signup");
 
-    const responseData = await postFetchCall(
-      "https://chat-express-ovf0.onrender.com/api/register",
-      {
-        name,
-        email,
-        password,
-      }
-    );
+    const responseData = await postFetchCall("api/register", {
+      name,
+      email,
+      password,
+    });
 
     // 3. Handle successful response (responseData is guaranteed to be truthy if successful)
     if (responseData) {

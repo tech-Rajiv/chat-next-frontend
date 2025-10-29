@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 function useFetchPost() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -8,7 +8,8 @@ function useFetchPost() {
     setIsLoading(true);
     let result = false;
     try {
-      const response = await fetch(url, {
+      console.log("API_BASE: ", API_BASE);
+      const response = await fetch(`${API_BASE}/${url}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +22,7 @@ function useFetchPost() {
       console.log("data: ", data);
 
       if (!response.ok) {
-        setError(data.error || "response failed");
+        setError(data.message || "response failed");
         return false;
       }
       console.log("success post req");

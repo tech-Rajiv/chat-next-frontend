@@ -19,13 +19,10 @@ function LoginForm() {
     }
     console.log("login");
 
-    const responseData = await postFetchCall(
-      "https://chat-express-ovf0.onrender.com/api/login",
-      {
-        email,
-        password,
-      }
-    );
+    const responseData = await postFetchCall("api/login", {
+      email,
+      password,
+    });
     console.log("responseData in func: ", responseData);
     if (responseData) {
       router.replace("/dashboard");
