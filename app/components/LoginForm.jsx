@@ -18,15 +18,18 @@ function LoginForm() {
       return;
     }
     console.log("login");
-    return;
-    // const responseData = await postFetchCall("/api/auth/login", {
-    //   email,
-    //   password,
-    // });
-    // console.log("responseData in func: ", responseData);
-    // if (responseData) {
-    //   router.replace("/dashboard");
-    // }
+
+    const responseData = await postFetchCall(
+      "https://chat-express-ovf0.onrender.com/api/login",
+      {
+        email,
+        password,
+      }
+    );
+    console.log("responseData in func: ", responseData);
+    if (responseData) {
+      router.replace("/dashboard");
+    }
   };
   return (
     <div className="w-full max-w-sm">

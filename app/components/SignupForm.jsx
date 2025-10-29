@@ -31,13 +31,15 @@ const SignupForm = () => {
     setError("");
 
     console.log("signup");
-    return;
-    // 2. Call the reusable fetch hook
-    const responseData = await postFetchCall("/api/auth/signup", {
-      name,
-      email,
-      password,
-    });
+
+    const responseData = await postFetchCall(
+      "https://chat-express-ovf0.onrender.com/api/register",
+      {
+        name,
+        email,
+        password,
+      }
+    );
 
     // 3. Handle successful response (responseData is guaranteed to be truthy if successful)
     if (responseData) {
