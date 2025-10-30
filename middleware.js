@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 export function middleware(req) {
   const token = req.cookies.get("token")?.value;
+  console.log("middleware run");
   console.log("token: ", token);
   const url = req.nextUrl.clone();
 
@@ -12,7 +13,6 @@ export function middleware(req) {
       url.pathname === "/signup" ||
       url.pathname === "/")
   ) {
-    console.log("stoping");
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }

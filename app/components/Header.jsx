@@ -1,7 +1,10 @@
-import React from "react";
+import LogoutButton from "./LogoutButton";
 
-function Header() {
-  return <div>Header</div>;
+export default function Header() {
+  return (
+    <div className="p-5 shadow flex justify-between">
+      <h2 className="text-[#96A78D] font-semibold">Chat App</h2>
+      <LogoutButton />
+    </div>
+  );
 }
-
-export default Header;

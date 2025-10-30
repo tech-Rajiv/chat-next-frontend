@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import useFetchPost from "../hooks/useFetchPost";
+import { toast } from "sonner";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ function LoginForm() {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
       setError("please fill every feild");
+
       return;
     }
     console.log("login");
@@ -25,8 +27,11 @@ function LoginForm() {
     });
     console.log("responseData in func: ", responseData);
     if (responseData) {
+      toast.success("Logged in successfully");
       router.replace("/dashboard");
+      return;
     }
+    toast.error("Please try again");
   };
   return (
     <div className="w-full max-w-sm">

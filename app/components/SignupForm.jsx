@@ -41,7 +41,7 @@ const SignupForm = () => {
     // 3. Handle successful response (responseData is guaranteed to be truthy if successful)
     if (responseData) {
       console.log("Signup successful!");
-      router.replace("/auth/login");
+      router.replace("/login");
     }
     // If responseData is false, the error state is already set by useFetchPost
   };
