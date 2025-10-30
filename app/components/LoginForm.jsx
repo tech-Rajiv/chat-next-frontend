@@ -92,7 +92,7 @@ function LoginForm() {
           Not registered?
           <Link
             className="text-blue-500 ml-2 hover:text-blue-800 font-bold"
-            href="/auth/signup"
+            href="/signup"
           >
             Create an Account
           </Link>

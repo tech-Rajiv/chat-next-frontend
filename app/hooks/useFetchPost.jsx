@@ -14,6 +14,7 @@ function useFetchPost() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", // ✅ very important for cookies
         body: JSON.stringify(bodyParams),
       });
 

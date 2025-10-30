@@ -1,7 +1,7 @@
-import React from "react";
-
-function page() {
-  return <div>Dashboard</div>;
+export default function Dashboard() {
+  return (
+    <div>
+      <h1>Welcome to your Dashboard 🎉</h1>
+    </div>
+  );
 }
-
-export default page;
