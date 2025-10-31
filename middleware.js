@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 
 export function middleware(req) {
   const token = req.cookies.get("token")?.value;
+  console.log("token: in middleware", token);
+
   const url = req.nextUrl.clone();
 
   //  If logged in and tries to go to login/register → redirect to dashboard
@@ -21,8 +23,11 @@ export function middleware(req) {
     (url.pathname.startsWith("/dashboard") || url.pathname.startsWith("/chat"))
   ) {
     url.pathname = "/login";
+    console.log("middlewre forcing to login");
+
     return NextResponse.redirect(url);
   }
+  console.log("middlewre doing next");
 
   // Otherwise, allow request
   return NextResponse.next();
