@@ -28,11 +28,9 @@ function LoginForm() {
     console.log("responseData in func: ", responseData);
     if (responseData) {
       toast.success("Logged in successfully");
-      // Wait before navigating — allow cookie to persist
-      setTimeout(() => {
-        console.log("redirecting to dashboard");
-        router.replace("/dashboard");
-      }, 800);
+
+      console.log("redirecting to dashboard");
+      router.replace("/dashboard");
 
       return;
     }

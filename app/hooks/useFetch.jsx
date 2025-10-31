@@ -6,7 +6,7 @@ function useFetch(url) {
   const [loading, setLoading] = useState(false);
   const fecthCall = async (url) => {
     try {
-      const response = await fetch(`${url}`, {
+      const response = await fetch(`${API_BASE}${url}`, {
         method: "GET",
         credentials: "include",
       });

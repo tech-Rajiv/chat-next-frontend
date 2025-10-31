@@ -9,11 +9,13 @@ export function useLogout() {
   const [error, setError] = useState(null);
   const router = useRouter();
   const dispatch = useDispatch();
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+
   const logout = async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/logout`, {
+      const res = await fetch(`${API_BASE}/api/logout`, {
         method: "POST",
         credentials: "include",
       });
