@@ -3,25 +3,22 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 function useFetch(url) {
   const [data, setData] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const fecthCall = async (url) => {
-    console.log("fetch call for all users");
     try {
-      console.log("API_BASE: ", API_BASE);
-      const response = await fetch(`${API_BASE}/${url}`);
+      const response = await fetch(`${API_BASE}${url}`, {
+        method: "GET",
+        credentials: "include",
+      });
       const data = await response.json();
-      console.log("response: ", response);
-      console.log("data: ", data);
-
       if (!response.ok) {
         setError(data.message || "response failed");
       }
-      console.log("success fetch req");
-      setData(data);
+      setData(data?.data);
     } catch (err) {
       setError("A network error occurred. Please check your connection.");
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -29,7 +26,7 @@ function useFetch(url) {
   }, [url]);
 
   return {
-    isLoading,
+    loading,
     error,
     setError,
     data,

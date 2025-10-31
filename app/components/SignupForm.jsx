@@ -9,7 +9,7 @@ const SignupForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { isLoading, error, setError, postFetchCall } = useFetchPost();
+  const { loading, error, setError, postFetchCall } = useFetchPost();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -143,9 +143,9 @@ const SignupForm = () => {
             <button
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:opacity-50"
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? "Registering..." : "Register"}
+              {loading ? "Registering..." : "Register"}
             </button>
           </div>
         </form>

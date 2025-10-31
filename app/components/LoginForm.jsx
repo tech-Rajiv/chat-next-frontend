@@ -9,7 +9,7 @@ function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isLoading, error, setError, postFetchCall } = useFetchPost();
+  const { loading, error, setError, postFetchCall } = useFetchPost();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -86,9 +86,9 @@ function LoginForm() {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:opacity-50"
               type="submit"
-              disabled={isLoading}
+              disabled={loading}
             >
-              {isLoading ? "Logging In..." : "Log In"}
+              {loading ? "Logging In..." : "Log In"}
             </button>
           </div>
         </form>

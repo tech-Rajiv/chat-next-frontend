@@ -1,13 +1,13 @@
-import AllUsers from "../components/Chat/AllUsers";
-import ChatVeiw from "../components/Chat/ChatVeiw";
+import { Button } from "@/components/ui/button";
+
 import Tabs from "../components/Tabs";
+
+import Link from "next/link";
 
 export default function Dashboard() {
   return (
-    <div>
-      <Tabs />
-      <h1>Welcome to your Dashboard 🎉</h1>
-      <AllUsers />
+    <div className="py-5">
+      <h1 className="text-center">Welcome back!</h1>
     </div>
   );
 }
