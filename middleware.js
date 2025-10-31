@@ -2,38 +2,28 @@ import { NextResponse } from "next/server";
 
 export function middleware(req) {
   const token = req.cookies.get("token")?.value;
-  console.log("token: in middleware", token);
+  const { pathname } = req.nextUrl;
 
-  const url = req.nextUrl.clone();
+  // ✅ Protect private routes only
+  if (!token && pathname.startsWith("/dashboard")) {
+    console.log("middleware: no token → redirecting to /login");
+    const loginUrl = new URL("/login", req.url);
+    return NextResponse.redirect(loginUrl);
+  }
 
-  //  If logged in and tries to go to login/register → redirect to dashboard
+  // ✅ Optional: prevent logged-in user from re-visiting login/signup
   if (
     token &&
-    (url.pathname === "/login" ||
-      url.pathname === "/signup" ||
-      url.pathname === "/")
+    (pathname === "/login" || pathname === "/signup" || pathname === "/")
   ) {
-    url.pathname = "/dashboard";
-    return NextResponse.redirect(url);
+    const dashboardUrl = new URL("/dashboard", req.url);
+    return NextResponse.redirect(dashboardUrl);
   }
 
-  //  If not logged in and tries to go to protected route → redirect to login
-  if (
-    !token &&
-    (url.pathname.startsWith("/dashboard") || url.pathname.startsWith("/chat"))
-  ) {
-    url.pathname = "/login";
-    console.log("middlewre forcing to login");
-
-    return NextResponse.redirect(url);
-  }
-  console.log("middlewre doing next");
-
-  // Otherwise, allow request
+  console.log("middleware: allowing request");
   return NextResponse.next();
 }
 
-// 👇 This tells Next.js which routes the middleware should run on
 export const config = {
-  matcher: ["/", "/signup", "/login", "/dashboard/:path*"],
+  matcher: ["/", "/login", "/signup", "/dashboard/:path*", "/chat/:path*"],
 };

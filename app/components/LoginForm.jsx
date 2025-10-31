@@ -28,8 +28,12 @@ function LoginForm() {
     console.log("responseData in func: ", responseData);
     if (responseData) {
       toast.success("Logged in successfully");
-      console.log("redirecting to dashboard");
-      router.replace("/dashboard");
+      // Wait before navigating — allow cookie to persist
+      setTimeout(() => {
+        console.log("redirecting to dashboard");
+        router.replace("/dashboard");
+      }, 800);
+
       return;
     }
     toast.error("Please try again");
