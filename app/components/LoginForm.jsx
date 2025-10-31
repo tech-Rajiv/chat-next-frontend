@@ -28,6 +28,7 @@ function LoginForm() {
     console.log("responseData in func: ", responseData);
     if (responseData) {
       toast.success("Logged in successfully");
+      console.log("redirecting to dashboard");
       router.replace("/dashboard");
       return;
     }
