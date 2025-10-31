@@ -32,7 +32,7 @@ const SignupForm = () => {
 
     console.log("signup");
 
-    const responseData = await postFetchCall("api/register", {
+    const responseData = await postFetchCall("/api/register", {
       name,
       email,
       password,

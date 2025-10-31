@@ -21,7 +21,7 @@ function LoginForm() {
     }
     console.log("login");
 
-    const responseData = await postFetchCall("api/login", {
+    const responseData = await postFetchCall("/api/login", {
       email,
       password,
     });

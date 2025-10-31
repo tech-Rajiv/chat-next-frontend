@@ -1,7 +1,6 @@
 // app/chat/[email]/page.js
 "use client";
 
-import BackButton from "@/app/components/BackButton";
 import HeaderChat from "@/app/components/Chat/HeaderChat";
 import { io } from "socket.io-client";
 import useFetchPost from "@/app/hooks/useFetchPost";
@@ -9,13 +8,16 @@ import { useParams } from "next/navigation";
 import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { Send } from "lucide-react";
+import { useSelector } from "react-redux";
+import ChatArea from "@/app/components/Chat/ChatArea";
 
 export default function ChatPage() {
   const { id: receiverId } = useParams(); // 👈 /chat/[id]
   const [receiver, setReceiver] = useState(null);
   const { postFetchCall, error, loading } = useFetchPost();
 
-  const loggedInUser = { id: 1, name: "rajiv" };
+  const loggedInUser = useSelector((state) => state.auth?.user);
+  console.log("my Id: ", loggedInUser?.id);
 
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
@@ -25,24 +27,25 @@ export default function ChatPage() {
 
   //to get infos
   useEffect(() => {
+    if (!receiverId || !loggedInUser?.id) return;
     console.log("Chat opened for:id ", receiverId);
     const callFetch = async () => {
-      const details = await postFetchCall("users/get-user-profile", {
+      const details = await postFetchCall("/users/get-user-profile", {
         id: receiverId,
       });
       setData(details?.data);
     };
     callFetch();
-  }, [receiverId]);
+  }, [receiverId, loggedInUser]);
 
   // Setup socket
   useEffect(() => {
-    if (!receiverId) return;
+    if (!receiverId || !loggedInUser?.id) return;
     console.log("socket ran");
     const socket = io("http://localhost:4000", { withCredentials: true });
     socketRef.current = socket;
 
-    const roomId = [loggedInUser.id, receiverId].sort().join("_");
+    const roomId = [loggedInUser?.id, receiverId].sort().join("_");
     socket.emit("join_room", roomId);
 
     console.log(`✅ Joined room: ${roomId}`);
@@ -55,16 +58,19 @@ export default function ChatPage() {
     return () => {
       socket.disconnect();
     };
-  }, [receiverId]);
+  }, [receiverId, loggedInUser]);
 
   const handleSend = (e) => {
     e.preventDefault();
     console.log("handlesend ran");
-    const roomId = [loggedInUser.id, receiverId].sort().join("_");
+    if (!messageInput.trim()) {
+      return;
+    }
+    const roomId = [loggedInUser?.id, receiverId].sort().join("_");
 
     const messageData = {
       roomId,
-      senderId: loggedInUser.id,
+      senderId: loggedInUser?.id,
       receiverId,
       text: messageInput,
       timestamp: new Date(),
@@ -85,30 +91,13 @@ export default function ChatPage() {
     <div className="max-w-4xl mx-auto ">
       <div className="p-3">
         <HeaderChat details={data} />
-        <div className="border flex flex-col mt-5 rounded-lg p-3 min-h-[70vh] overflow-y-auto bg-gray-50">
-          {messages.length ? (
-            messages.map((msg, i) => (
-              <span
-                key={i}
-                className={`p-2 w-content rounded-md mb-2 ${
-                  msg.senderId === loggedInUser.id
-                    ? "border border-green-400 text-right"
-                    : "border border-blue-400 text-left"
-                }`}
-              >
-                {msg.text}
-              </span>
-            ))
-          ) : (
-            <p className="text-gray-400 text-sm">No messages yet.</p>
-          )}
-        </div>
+        <ChatArea messages={messages} loggedInUser={loggedInUser} />
 
         <form onSubmit={handleSend} className="mt-3 flex gap-2">
           <input
             type="text"
             placeholder="Type a message"
-            className="border rounded-md flex-1 px-3 py-2"
+            className="border rounded-md flex-1 px-3 py-3"
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
           />

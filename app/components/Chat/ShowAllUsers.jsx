@@ -30,7 +30,6 @@ function ShowAllUsers({ allUsers, onSelect }) {
         {allUsers &&
           allUsers?.map((user) => {
             const isActive = pathname === `/dashboard/chat/${user.id}`;
-            console.log(isActive, "isactive");
             return (
               <Item
                 key={user.id}

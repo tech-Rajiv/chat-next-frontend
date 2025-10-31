@@ -14,6 +14,7 @@ function useFetch(url) {
       if (!response.ok) {
         setError(data.message || "response failed");
       }
+
       setData(data?.data);
     } catch (err) {
       setError("A network error occurred. Please check your connection.");
