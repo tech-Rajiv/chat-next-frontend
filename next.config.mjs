@@ -8,7 +8,11 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://chat-express-ovf0.onrender.com/api/:path*", // Proxy to Render backend
+        destination: "https://chat-express-ovf0.onrender.com/api/:path*",
+      },
+      {
+        source: "/users/:path*",
+        destination: "https://chat-express-ovf0.onrender.com/users/:path*",
       },
     ];
   },

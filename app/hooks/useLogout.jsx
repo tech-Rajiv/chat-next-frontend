@@ -13,7 +13,7 @@ export function useLogout() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/logout`, {
+      const res = await fetch(`/api/logout`, {
         method: "POST",
         credentials: "include",
       });

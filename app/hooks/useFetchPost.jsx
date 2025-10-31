@@ -8,7 +8,7 @@ function useFetchPost() {
     setLoading(true);
     let result = false;
     try {
-      const response = await fetch(`${API_BASE}${url}`, {
+      const response = await fetch(`${url}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
