@@ -35,12 +35,5 @@ export function middleware(req) {
 
 // 👇 This tells Next.js which routes the middleware should run on
 export const config = {
-  matcher: [
-    "/",
-    "/signup",
-    "/chat",
-    "/login",
-    "/register",
-    "/dashboard/:path*",
-  ],
+  matcher: ["/", "/signup", "/login", "/dashboard/:path*"],
 };

@@ -5,6 +5,7 @@ import Modals from "./Modals";
 
 export default function LogoutButton() {
   const { logout, loading, error } = useLogout();
+
   const handleLogout = () => {
     console.log("logging out...");
     logout();
