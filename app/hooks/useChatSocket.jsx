@@ -25,25 +25,25 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     };
   }, [loggedInUserId, receiverId]);
 
-  const sendMessage = async (text) => {
-    if (!text.trim()) return;
+  const sendMessage = async (content) => {
+    if (!content.trim()) return;
     const roomId = [loggedInUserId, receiverId].sort().join("_");
     const messageData = {
       roomId,
       senderId: loggedInUserId,
       receiverId,
-      text,
+      content,
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, messageData]);
     console.log("message sent", messageData);
-    const msgSent = await fetchSendMessage(text);
+    const msgSent = await fetchSendMessage(messageData);
     // socketRef.current?.emit("send_message", messageData);
   };
 
-  const fetchSendMessage = async (text) => {
-    console.log("sending text", text);
-    const data = await postFetchCall("/chats/send", { text });
+  const fetchSendMessage = async (messageData) => {
+    console.log("sending text", messageData);
+    const data = await postFetchCall("/chats/send", { ...messageData });
     console.log("recived data text res", data);
   };
   return { messages, sendMessage };

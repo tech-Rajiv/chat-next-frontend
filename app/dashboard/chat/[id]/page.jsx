@@ -22,7 +22,7 @@ export default function ChatPage() {
 
   const loggedInUser = useSelector((state) => state.auth?.user);
   const { id: receiverId } = useParams();
-  const { messages, sendMessage } = useChatSocket(loggedInUser?.id, receiverId);
+  const { messages, sendMessage } = useChatSocket(loggedInUser?.id, Number(receiverId));
 
   console.log("my Id: ", loggedInUser?.id);
 
