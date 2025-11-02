@@ -2,14 +2,15 @@
 import React, { useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import { useDispatch } from "react-redux";
-import { setAuth } from "../redux/slices/authSlice";
+import { setAuth, setLoading } from "../redux/slices/authSlice";
 
 function AuthInitializer({ children }) {
   const { loading, error, data } = useFetch("/api/me");
   const dispatch = useDispatch();
-  useEffect(() => {}, [data]);
+
 
   useEffect(() => {
+    dispatch(setLoading())
     if (data) {
       console.log("data to be setted on state", data);
       dispatch(setAuth({ user: data }));

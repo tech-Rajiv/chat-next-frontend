@@ -1,5 +1,6 @@
 import { MessageCircleMore } from "lucide-react";
-import LogoutButton from "./LogoutButton";
+
+import LoginOrOut from "./LoginOrOut";
 
 export default function Header() {
   return (
@@ -8,7 +9,7 @@ export default function Header() {
         Chat App
         <MessageCircleMore size={20} />
       </h2>
-      <LogoutButton />
+      <LoginOrOut />
     </div>
   );
 }

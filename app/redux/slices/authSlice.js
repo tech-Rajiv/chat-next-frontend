@@ -15,12 +15,13 @@ const authSlice = createSlice({
       state.user = action.payload.user || null;
       state.token = action.payload.token || null;
       state.error = null;
+      state.loading = false
     },
 
     resetAuth: () => initialState,
 
     setLoading: (state, action) => {
-      state.loading = action.payload;
+      state.loading = true;
     },
 
     setError: (state, action) => {

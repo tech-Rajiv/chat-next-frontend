@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import useFetchPost from "../hooks/useFetchPost";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../redux/slices/authSlice";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -11,7 +13,7 @@ function LoginForm() {
 
   const { loading, error, setError, postFetchCall } = useFetchPost();
   const router = useRouter();
-
+ const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
@@ -32,7 +34,7 @@ function LoginForm() {
       console.log(token,"token")
       localStorage.setItem('token',token)
      document.cookie = `token=${token}; path=/; SameSite=Lax`;
-
+ dispatch(setAuth({ user: responseData?.user }));
       toast.success("Logged in successfully");
       console.log("redirecting to dashboard");
       router.replace("/dashboard");
