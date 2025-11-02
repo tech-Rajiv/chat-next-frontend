@@ -5,10 +5,14 @@ function useFetch(url) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const fecthCall = async (url) => {
+    const token = localStorage.getItem('token')
     try {
       const response = await fetch(`${API_BASE}${url}`, {
         method: "GET",
-        credentials: "include",
+       headers: {
+           "authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
       const data = await response.json();
       if (!response.ok) {
