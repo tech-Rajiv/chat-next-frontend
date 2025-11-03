@@ -7,17 +7,18 @@ function useFetchPost() {
     setError("");
     setLoading(true);
     let result = false;
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(`${API_BASE}${url}`, {
         method: "POST",
         headers: {
-           "authorization": `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(bodyParams),
       });
 
+      console.log("response: ", response);
       const data = await response.json();
 
       if (!response.ok) {

@@ -8,11 +8,9 @@ function AuthInitializer({ children }) {
   const { loading, error, data } = useFetch("/api/me");
   const dispatch = useDispatch();
 
-
   useEffect(() => {
-    dispatch(setLoading())
+    dispatch(setLoading());
     if (data) {
-      console.log("data to be setted on state", data);
       dispatch(setAuth({ user: data }));
     }
   }, [data]);

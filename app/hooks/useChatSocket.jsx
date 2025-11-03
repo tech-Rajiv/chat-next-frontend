@@ -6,6 +6,17 @@ export default function useChatSocket(loggedInUserId, receiverId) {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
   const { loading, error, setError, postFetchCall } = useFetchPost();
+
+  //db request will retrive messages
+  const makeDBfetchOldMessages = async (roomKey) => {
+    const data = await postFetchCall("/chats/messages", { roomKey });
+    console.log("data of old messages", data);
+    if (data) {
+      console.log("seeted messagess");
+      setMessages(data?.messages);
+    }
+  };
+
   useEffect(() => {
     if (!loggedInUserId || !receiverId) return;
 
@@ -16,47 +27,65 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     socket.emit("join_room", roomId);
     console.log(` Joined room: ${roomId}`);
 
+    // db request to get old chats if exists and setMessages
+    makeDBfetchOldMessages(roomId);
+
     socket.on("receive_message", (data) => {
-      console.log("some message recieved", data);
+      console.log("🟢 Received via socket:", data);
+
       setMessages((prev) => {
-        const iSentMsg = prev.some((msg) => msg.tempId === data.tempId);
-        if (iSentMsg) {
-          return prev.map((msg) =>
-            msg.tempId === data.tempId
-              ? { ...msg, status: data.status, createdAt: data?.createdAt }
-              : msg
+        // Always create a shallow copy
+        const updated = [...prev];
+
+        // Check if the message already exists (by id or tempId)
+        const exists = updated.some(
+          (msg) => msg.id === data.id || msg.tempId === data.tempId
+        );
+
+        if (!exists) {
+          updated.push(data);
+        } else {
+          // If same tempId found, update it
+          return updated.map((msg) =>
+            msg.tempId === data.tempId ? { ...msg, ...data } : msg
           );
         }
-        return [...prev, data];
+
+        // Optional: maintain correct order (oldest → newest)
+        return updated.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
       });
     });
+
     return () => {
       socket.disconnect();
     };
   }, [loggedInUserId, receiverId]);
 
   const sendMessage = async (text) => {
+    console.log("clicked");
     if (!text.trim()) return;
-    const roomId = [loggedInUserId, receiverId].sort().join("_");
+    if (!loggedInUserId || !receiverId) return;
     const tempId = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
     const messageData = {
-      roomId,
       tempId,
       senderId: loggedInUserId,
       receiverId,
       text,
       status: "PENDING",
+      createdAt: new Date().toISOString(),
     };
-    setMessages((prev) => [...prev, messageData]);
+
+    setMessages((prev) => {
+      const updated = [...prev, messageData];
+      return updated.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    });
     socketRef.current?.emit("send_message", messageData);
-    // const msgSent = await fetchSendMessage(messageData);
   };
 
-  const fetchSendMessage = async (messageData) => {
-    console.log("sending text", messageData);
-    const data = await postFetchCall("/chats/send", { ...messageData });
-    console.log("recived response of send mesage call", data);
-  };
   return { messages, sendMessage };
 }
