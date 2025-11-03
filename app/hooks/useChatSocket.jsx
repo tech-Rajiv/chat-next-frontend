@@ -17,34 +17,46 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     console.log(` Joined room: ${roomId}`);
 
     socket.on("receive_message", (data) => {
-      console.log("message recieved", data);
-      setMessages((prev) => [...prev, data]);
+      console.log("some message recieved", data);
+      setMessages((prev) => {
+        const iSentMsg = prev.some((msg) => msg.tempId === data.tempId);
+        if (iSentMsg) {
+          return prev.map((msg) =>
+            msg.tempId === data.tempId
+              ? { ...msg, status: data.status, createdAt: data?.createdAt }
+              : msg
+          );
+        }
+        return [...prev, data];
+      });
     });
     return () => {
       socket.disconnect();
     };
   }, [loggedInUserId, receiverId]);
 
-  const sendMessage = async (content) => {
-    if (!content.trim()) return;
+  const sendMessage = async (text) => {
+    if (!text.trim()) return;
     const roomId = [loggedInUserId, receiverId].sort().join("_");
+    const tempId = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
     const messageData = {
       roomId,
+      tempId,
       senderId: loggedInUserId,
       receiverId,
-      content,
-      timestamp: new Date(),
+      text,
+      status: "PENDING",
     };
     setMessages((prev) => [...prev, messageData]);
-    console.log("message sent", messageData);
-    const msgSent = await fetchSendMessage(messageData);
-    // socketRef.current?.emit("send_message", messageData);
+    socketRef.current?.emit("send_message", messageData);
+    // const msgSent = await fetchSendMessage(messageData);
   };
 
   const fetchSendMessage = async (messageData) => {
     console.log("sending text", messageData);
     const data = await postFetchCall("/chats/send", { ...messageData });
-    console.log("recived data text res", data);
+    console.log("recived response of send mesage call", data);
   };
   return { messages, sendMessage };
 }

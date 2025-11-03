@@ -1,8 +1,9 @@
+import { Check, CheckCheck, Info } from "lucide-react";
 import React from "react";
 
 function ChatArea({ messages, loggedInUser }) {
   return (
-    <div className="flex flex-col gap-8 mt-5 rounded-lg p-4 min-h-[70vh] overflow-y-auto bg-gray-100">
+    <div className="flex flex-col gap-8 mt-5 rounded-lg p-4 h-[70vh] overflow-y-auto bg-gray-100">
       {messages.length ? (
         messages.map((msg, i) => {
           const isSender = msg?.senderId === loggedInUser?.id;
@@ -20,12 +21,33 @@ function ChatArea({ messages, loggedInUser }) {
                   }`}
               >
                 <p>{msg.text}</p>
-                <span
-                  className={`absolute right-2 text-[10px] bottom-[-16] text-gray-700`}
+                <div
+                  className={`absolute ${
+                    isSender ? "right-2" : "left-2"
+                  } text-[10px] bottom-[-16] text-gray-700`}
                 >
-                  {/* optional timestamp placeholder */}
-                  10:35 AM
-                </span>
+                  <div className="infos flex items-center gap-2">
+                    <span>
+                      {new Date(msg?.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </span>
+                    <span>
+                      {msg.status === "PENDING" && isSender && (
+                        <Info size={10} />
+                      )}
+                      {msg.status === "SENT" && isSender && <Check size={10} />}
+                      {msg.status === "DELIVERED" && isSender && (
+                        <CheckCheck size={16} />
+                      )}
+                      {msg.status === "SEEN" && isSender && (
+                        <CheckCheck size={10} color="blue" />
+                      )}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           );
