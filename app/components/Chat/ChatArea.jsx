@@ -1,7 +1,7 @@
 import { Check, CheckCheck, Info } from "lucide-react";
 import React, { useEffect, useRef } from "react";
 
-function ChatArea({ messages, loggedInUser, seenMessage }) {
+function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
   const chatContainerRef = useRef();
 
   useEffect(() => {
@@ -23,7 +23,13 @@ function ChatArea({ messages, loggedInUser, seenMessage }) {
       ref={chatContainerRef}
       className="flex flex-col-reverse gap-3 mt-5 rounded-lg p-4 h-[70vh] overflow-y-auto bg-gray-100 pb-8"
     >
-      {messages.length ? (
+      {loading && "loading"}
+      {!loading && !messages.length && (
+        <p className="text-gray-400 text-center text-sm mt-10">
+          No messages yet. Start the conversation!
+        </p>
+      )}
+      {messages.length &&
         messages.map((msg, i) => {
           const isSender = msg?.senderId === loggedInUser?.id;
           return (
@@ -39,7 +45,7 @@ function ChatArea({ messages, loggedInUser, seenMessage }) {
                       : "bg-white text-gray-800 rounded-bl-none"
                   }`}
               >
-                <p>{msg.text}</p>
+                <p>{msg?.text}</p>
                 <div
                   className={`absolute ${
                     isSender ? "right-2" : "left-2"
@@ -77,12 +83,7 @@ function ChatArea({ messages, loggedInUser, seenMessage }) {
               </div>
             </div>
           );
-        })
-      ) : (
-        <p className="text-gray-400 text-center text-sm mt-10">
-          No messages yet. Start the conversation!
-        </p>
-      )}
+        })}
     </div>
   );
 }

@@ -24,8 +24,8 @@ export function useLogout() {
         throw new Error("Logout failed. Please try again.");
       }
       dispatch(resetAuth());
-      console.log('cleared token, local')
-      localStorage.removeItem('token');
+      console.log("cleared token, local");
+      localStorage.removeItem("token");
       toast.success("logout successfull");
       router.replace("/");
       router.refresh();

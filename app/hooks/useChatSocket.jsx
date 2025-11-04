@@ -4,16 +4,20 @@ import useFetchPost from "./useFetchPost";
 
 export default function useChatSocket(loggedInUserId, receiverId) {
   const [messages, setMessages] = useState([]);
+  const [chatLoading, setChatLoading] = useState(false);
   const socketRef = useRef(null);
   const { postFetchCall } = useFetchPost();
 
   // 🔹 Load old messages
   const fetchOldMessages = async (roomKey) => {
     try {
+      setChatLoading(true);
       const data = await postFetchCall("/chats/messages", { roomKey });
       if (data?.messages) setMessages(data.messages);
     } catch (err) {
       console.error("Failed to fetch old messages", err);
+    } finally {
+      setChatLoading(false);
     }
   };
 
@@ -128,5 +132,5 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     socketRef.current.emit("seen_message", { roomKey, messageId, status });
   };
 
-  return { messages, sendMessage, seenMessage };
+  return { messages, sendMessage, seenMessage, chatLoading };
 }

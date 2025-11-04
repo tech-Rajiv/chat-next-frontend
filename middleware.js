@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
-  const token = req.cookies.get("token")?.value;
+  // const token = req.cookies.get("token")?.value;
+  const token = localStorage.getItem("token");
   const { pathname } = req.nextUrl;
 
   // ✅ Protect private routes only
@@ -25,5 +26,5 @@ export function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/signup", "/dashboard/:path*", "/chat/:path*"],
+  matcher: ["/", "/login", "/signup", "/dashboard/:path*"],
 };

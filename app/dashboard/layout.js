@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }) {
       {/* Main content */}
       <div className="flex-1 p-4 overflow-y-auto">
         {/* Top bar for mobile */}
-        <div className="flex items-center justify-between md:hidden mb-4">
+        <div className="flex items-center justify-between md:hidden mb-3">
           <Button
             variant="outline"
             onClick={() => setSidebarOpen(!sidebarOpen)}
