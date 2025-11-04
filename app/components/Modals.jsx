@@ -10,6 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { LogOut } from "lucide-react";
 
 import React from "react";
 
@@ -17,7 +18,12 @@ function Modals({ name, heading, content, btnYesName, btnNoName, btnYesFn }) {
   return (
     <div>
       <AlertDialog>
-        <AlertDialogTrigger>{name}</AlertDialogTrigger>
+        <AlertDialogTrigger>
+          <div className="p flex gap-1 items-center">
+            {name}
+            <LogOut size={20} />
+          </div>
+        </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{heading}</AlertDialogTitle>

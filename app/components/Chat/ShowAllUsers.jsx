@@ -22,10 +22,6 @@ function ShowAllUsers({ allUsers, onSelect }) {
   const pathname = usePathname();
   return (
     <div className={""}>
-      <h2 className="mb-2 font-medium px-5 flex gap-2">
-        <Users size={20} />
-        Chat with...
-      </h2>
       <div className="lists p-2">
         {allUsers &&
           allUsers?.map((user) => {

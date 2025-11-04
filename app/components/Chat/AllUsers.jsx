@@ -13,10 +13,8 @@ function AllUsers({ onSelect }) {
   }
 
   return (
-    <div className={"py-5 max-w-4xl mx-auto"}>
-      <div className="">
-        <ShowAllUsers allUsers={data} onSelect={onSelect} />
-      </div>
+    <div className={""}>
+      <ShowAllUsers allUsers={data} onSelect={onSelect} />
     </div>
   );
 }

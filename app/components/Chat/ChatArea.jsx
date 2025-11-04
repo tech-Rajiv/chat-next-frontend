@@ -29,7 +29,7 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
           No messages yet. Start the conversation!
         </p>
       )}
-      {messages.length &&
+      {!!messages.length &&
         messages.map((msg, i) => {
           const isSender = msg?.senderId === loggedInUser?.id;
           return (

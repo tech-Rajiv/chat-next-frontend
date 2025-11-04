@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Tabs from "../components/Tabs";
+import TabsGroup from "../components/TabsGroup";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -17,6 +18,7 @@ export default function DashboardLayout({ children }) {
       >
         <div className="sm:px-5 mx-auto">
           <Tabs onSelect={() => setSidebarOpen(false)} />
+          <TabsGroup onSelect={() => setSidebarOpen(false)} />
         </div>
       </div>
 
