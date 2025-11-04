@@ -20,7 +20,9 @@ export default function useChatSocket(loggedInUserId, receiverId) {
   useEffect(() => {
     if (!loggedInUserId || !receiverId) return;
 
-    const socket = io("http://localhost:4000", { withCredentials: true });
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
+      withCredentials: true,
+    });
     socketRef.current = socket;
 
     const roomId = [loggedInUserId, receiverId].sort().join("_");
