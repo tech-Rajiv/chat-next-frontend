@@ -16,8 +16,9 @@ export default function DashboardLayout({ children }) {
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:relative md:translate-x-0 md:w-64 lg:w-96`}
       >
-        <div className="sm:px-5 mx-auto">
+        <div className="sm:px-5 mx-auto ">
           <Tabs onSelect={() => setSidebarOpen(false)} />
+          <hr />
           <TabsGroup onSelect={() => setSidebarOpen(false)} />
         </div>
       </div>

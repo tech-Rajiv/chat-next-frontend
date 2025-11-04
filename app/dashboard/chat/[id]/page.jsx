@@ -4,7 +4,7 @@
 import HeaderChat from "@/app/components/Chat/HeaderChat";
 import useFetchPost from "@/app/hooks/useFetchPost";
 import { useParams } from "next/navigation";
-import { useRef } from "react";
+
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ChatArea from "@/app/components/Chat/ChatArea";
@@ -43,7 +43,7 @@ export default function ChatPage() {
 
   return (
     <div className="max-w-4xl mx-auto ">
-      <div className="p-3">
+      <div className="">
         <HeaderChat recieverData={recieverData} loading={recieverDataLoading} />
 
         <ChatArea

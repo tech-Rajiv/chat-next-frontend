@@ -5,12 +5,13 @@ function useFetch(url) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const fecthCall = async (url) => {
-    const token = localStorage.getItem('token')
+    setLoading(true);
+    const token = localStorage.getItem("token");
     try {
       const response = await fetch(`${API_BASE}${url}`, {
         method: "GET",
-       headers: {
-           "authorization": `Bearer ${token}`,
+        headers: {
+          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
