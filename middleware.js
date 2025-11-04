@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
-  // const token = req.cookies.get("token")?.value;
-  const token = localStorage.getItem("token");
+  const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
   // ✅ Protect private routes only

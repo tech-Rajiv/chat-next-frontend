@@ -25,6 +25,9 @@ export function useLogout() {
       }
       dispatch(resetAuth());
       console.log("cleared token, local");
+      document.cookie =
+        "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax";
+
       localStorage.removeItem("token");
       toast.success("logout successfull");
       router.replace("/");
