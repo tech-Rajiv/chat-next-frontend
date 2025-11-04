@@ -1,17 +1,23 @@
 import { Check, CheckCheck, Info } from "lucide-react";
 import React, { useEffect, useRef } from "react";
 
-function ChatArea({ messages, loggedInUser }) {
+function ChatArea({ messages, loggedInUser, seenMessage }) {
   const chatContainerRef = useRef();
+
   useEffect(() => {
-    const container = chatContainerRef.current;
-    if (container) {
-      container.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+    const newestMessage = messages[0];
+    if (
+      newestMessage &&
+      newestMessage.senderId !== loggedInUser?.id &&
+      newestMessage.status !== "READ"
+    ) {
+      console.log("✅ Marking message as seen:", newestMessage);
+      seenMessage(newestMessage);
+    } else {
+      console.log("either I sent message or already read:", newestMessage);
     }
   }, [messages]);
+
   return (
     <div
       ref={chatContainerRef}
@@ -59,7 +65,7 @@ function ChatArea({ messages, loggedInUser }) {
                         {msg.status === "DELIVERED" && isSender && (
                           <CheckCheck size={16} />
                         )}
-                        {msg.status === "SEEN" && isSender && (
+                        {msg.status === "READ" && isSender && (
                           <CheckCheck size={10} color="blue" />
                         )}
                       </span>

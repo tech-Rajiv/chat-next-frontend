@@ -141,7 +141,7 @@ const SignupForm = () => {
           {/* Sign Up Button */}
           <div className="flex items-center justify-between">
             <button
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:opacity-50"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:opacity-50"
               type="submit"
               disabled={loading}
             >

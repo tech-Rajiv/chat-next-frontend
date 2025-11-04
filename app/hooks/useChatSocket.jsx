@@ -5,73 +5,83 @@ import useFetchPost from "./useFetchPost";
 export default function useChatSocket(loggedInUserId, receiverId) {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef(null);
-  const { loading, error, setError, postFetchCall } = useFetchPost();
+  const { postFetchCall } = useFetchPost();
 
-  //db request will retrive messages
-  const makeDBfetchOldMessages = async (roomKey) => {
-    const data = await postFetchCall("/chats/messages", { roomKey });
-    console.log("data of old messages", data);
-    if (data) {
-      console.log("seeted messagess");
-      setMessages(data?.messages);
+  // 🔹 Load old messages
+  const fetchOldMessages = async (roomKey) => {
+    try {
+      const data = await postFetchCall("/chats/messages", { roomKey });
+      if (data?.messages) setMessages(data.messages);
+    } catch (err) {
+      console.error("Failed to fetch old messages", err);
     }
   };
 
+  // 🔹 Initialize socket when both IDs are available
   useEffect(() => {
     if (!loggedInUserId || !receiverId) return;
 
     const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL, {
       withCredentials: true,
     });
+
     socketRef.current = socket;
 
-    const roomId = [loggedInUserId, receiverId].sort().join("_");
-    socket.emit("join_room", roomId);
-    console.log(` Joined room: ${roomId}`);
+    const roomKey = [loggedInUserId, receiverId].sort().join("_");
+    socket.emit("join_room", roomKey);
+    console.log(`Joined room: ${roomKey}`);
 
-    // db request to get old chats if exists and setMessages
-    makeDBfetchOldMessages(roomId);
+    fetchOldMessages(roomKey);
 
+    // 🔹 Handle incoming messages
     socket.on("receive_message", (data) => {
-      console.log("🟢 Received via socket:", data);
+      console.log("📩 New message received from socket:", data);
 
       setMessages((prev) => {
-        // Always create a shallow copy
-        const updated = [...prev];
-
-        // Check if the message already exists (by id or tempId)
-        const exists = updated.some(
+        const exists = prev.some(
           (msg) => msg.id === data.id || msg.tempId === data.tempId
         );
-
-        if (!exists) {
-          updated.push(data);
-        } else {
-          // If same tempId found, update it
-          return updated.map((msg) =>
+        if (exists) {
+          return prev.map((msg) =>
             msg.tempId === data.tempId ? { ...msg, ...data } : msg
           );
         }
-
-        // Optional: maintain correct order (oldest → newest)
+        const updated = [...prev, data];
         return updated.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
       });
     });
 
+    // 🔹 Handle seen updates separately
+    socket.on("message_seen_update", (updatedMessage) => {
+      console.log("👀 Message seen update:", updatedMessage);
+
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === updatedMessage.id ? { ...msg, status: "READ" } : msg
+        )
+      );
+    });
+
+    socket.on("disconnect", () =>
+      console.log("Socket disconnected:", socket.id)
+    );
+
     return () => {
       socket.disconnect();
+      console.log("🧹 Socket cleanup complete");
     };
   }, [loggedInUserId, receiverId]);
 
-  const sendMessage = async (text) => {
-    console.log("clicked");
-    if (!text.trim()) return;
-    if (!loggedInUserId || !receiverId) return;
+  // 🔹 Send message
+  const sendMessage = (text) => {
+    if (!text.trim() || !loggedInUserId || !receiverId || !socketRef.current)
+      return;
+
     const tempId = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-    const messageData = {
+    const newMessage = {
       tempId,
       senderId: loggedInUserId,
       receiverId,
@@ -80,14 +90,43 @@ export default function useChatSocket(loggedInUserId, receiverId) {
       createdAt: new Date().toISOString(),
     };
 
-    setMessages((prev) => {
-      const updated = [...prev, messageData];
-      return updated.sort(
+    // Update locally first
+    setMessages((prev) =>
+      [...prev, newMessage].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-    });
-    socketRef.current?.emit("send_message", messageData);
+      )
+    );
+
+    // Send via socket
+    socketRef.current.emit("send_message", newMessage);
   };
 
-  return { messages, sendMessage };
+  // 🔹 Mark message as seen
+  const seenMessage = async (lastMessage, retryCount = 0) => {
+    if (!lastMessage) return;
+
+    const roomKey = [lastMessage.senderId, lastMessage.receiverId]
+      .sort()
+      .join("_");
+    const messageId = lastMessage?.id;
+    const status = lastMessage?.status;
+    // If socket not ready, retry
+    if (!socketRef.current) {
+      if (retryCount < 5) {
+        console.log(
+          `⏳ Retrying seenMessage in 500ms... (attempt ${retryCount + 1})`
+        );
+        setTimeout(() => seenMessage(lastMessage, retryCount + 1), 400);
+      } else {
+        console.warn("⚠️ Failed to emit seen_message after multiple retries.");
+      }
+      return;
+    }
+
+    // ✅ Socket ready → emit seen_message
+    console.log("✅ Emitting seen_message", { roomKey, messageId });
+    socketRef.current.emit("seen_message", { roomKey, messageId, status });
+  };
+
+  return { messages, sendMessage, seenMessage };
 }

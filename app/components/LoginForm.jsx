@@ -6,6 +6,7 @@ import useFetchPost from "../hooks/useFetchPost";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../redux/slices/authSlice";
+import { MessageCircleMore } from "lucide-react";
 
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function LoginForm() {
 
   const { loading, error, setError, postFetchCall } = useFetchPost();
   const router = useRouter();
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim() || !password.trim()) {
@@ -30,11 +31,11 @@ function LoginForm() {
 
     console.log("responseData in func: ", responseData);
     if (responseData) {
-      const token = responseData?.token 
-      console.log(token,"token")
-      localStorage.setItem('token',token)
-     document.cookie = `token=${token}; path=/; SameSite=Lax`;
- dispatch(setAuth({ user: responseData?.user }));
+      const token = responseData?.token;
+      console.log(token, "token");
+      localStorage.setItem("token", token);
+      document.cookie = `token=${token}; path=/; SameSite=Lax`;
+      dispatch(setAuth({ user: responseData?.user }));
       toast.success("Logged in successfully");
       console.log("redirecting to dashboard");
       router.replace("/dashboard");
@@ -44,8 +45,8 @@ function LoginForm() {
   };
   return (
     <div className="w-full max-w-sm">
-      <div className="bg-white shadow-xl rounded-lg px-8 pt-6 pb-8 mb-4">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+      <div className="bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
+        <h2 className="text-2xl font-bold text-center mb-5 mt-5 text-gray-800">
           Login
         </h2>
 
@@ -93,7 +94,7 @@ function LoginForm() {
           )}
           <div className="flex items-center justify-between">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:opacity-50"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full disabled:opacity-50"
               type="submit"
               disabled={loading}
             >

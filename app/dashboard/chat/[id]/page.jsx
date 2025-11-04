@@ -22,7 +22,10 @@ export default function ChatPage() {
 
   const loggedInUser = useSelector((state) => state.auth?.user);
   const { id: receiverId } = useParams();
-  const { messages, sendMessage } = useChatSocket(loggedInUser?.id, Number(receiverId));
+  const { messages, sendMessage, seenMessage } = useChatSocket(
+    loggedInUser?.id,
+    Number(receiverId)
+  );
 
   console.log("my Id: ", loggedInUser?.id);
 
@@ -42,7 +45,12 @@ export default function ChatPage() {
     <div className="max-w-4xl mx-auto ">
       <div className="p-3">
         <HeaderChat recieverData={recieverData} loading={recieverDataLoading} />
-        <ChatArea messages={messages} loggedInUser={loggedInUser} />
+        <ChatArea
+          messages={messages}
+          loggedInUser={loggedInUser}
+          receiverId={receiverId}
+          seenMessage={seenMessage}
+        />
         <InputWithSendChat onSend={sendMessage} />
       </div>
     </div>
