@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }) {
     <div className="flex h-screen">
       {/* Sidebar (drawer on mobile) */}
       <div
-        className={`fixed  inset-y-0 left-0 bg-white border w-64 p-1 shadow-lg transform transition-transform duration-300 z-50
+        className={`fixed  inset-y-0 left-0 bg-white border w-70 p-1 shadow-lg transform transition-transform duration-300 z-50
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:relative md:translate-x-0 md:w-64 lg:w-96`}
       >
@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }) {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 md:hidden"
+          className="fixed inset-0 bg-black/30  md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}

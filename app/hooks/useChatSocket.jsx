@@ -102,6 +102,7 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     );
 
     // Send via socket
+    console.log("sendin emit ", newMessage);
     socketRef.current.emit("send_message", newMessage);
   };
 

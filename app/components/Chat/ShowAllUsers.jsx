@@ -30,7 +30,7 @@ function ShowAllUsers({ allUsers, onSelect }) {
               <Item
                 key={user.id}
                 variant="muted"
-                className={`mt-2 rounded-md py-4 mb-3 border cursor-pointer transition-colors
+                className={`mt-2 rounded-md py-3 mb-3 border cursor-pointer transition-colors
                   ${isActive ? "border-green-500 " : ""}
                   `}
                 size="sm"
