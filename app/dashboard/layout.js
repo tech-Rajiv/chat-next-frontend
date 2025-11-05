@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Tabs from "../components/Tabs";
 import TabsGroup from "../components/TabsGroup";
+import Settings from "../components/Settings";
+import ThemesComp from "../components/ThemesComp";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -16,10 +18,15 @@ export default function DashboardLayout({ children }) {
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:relative md:translate-x-0 md:w-64 lg:w-96`}
       >
-        <div className="sm:px-5 mx-auto ">
-          <Tabs onSelect={() => setSidebarOpen(false)} />
-          <hr />
-          <TabsGroup onSelect={() => setSidebarOpen(false)} />
+        <div className="sm:px-5 mx-auto flex flex-col w-full h-[80%] justify-between">
+          <div>
+            <Tabs onSelect={() => setSidebarOpen(false)} />
+            <hr />
+            <TabsGroup onSelect={() => setSidebarOpen(false)} />
+          </div>
+          <div>
+            <ThemesComp />
+          </div>
         </div>
       </div>
 

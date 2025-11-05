@@ -22,22 +22,20 @@ function LoginForm() {
 
       return;
     }
-    console.log("login");
 
     const responseData = await postFetchCall("/api/login", {
       email,
       password,
     });
 
-    console.log("responseData in func: ", responseData);
     if (responseData) {
       const token = responseData?.token;
-      console.log(token, "token");
+
       localStorage.setItem("token", token);
       document.cookie = `token=${token}; path=/; SameSite=Lax`;
       dispatch(setAuth({ user: responseData?.user }));
       toast.success("Logged in successfully");
-      console.log("redirecting to dashboard");
+
       router.replace("/dashboard");
       return;
     }

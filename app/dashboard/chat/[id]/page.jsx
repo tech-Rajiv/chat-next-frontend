@@ -6,11 +6,12 @@ import useFetchPost from "@/app/hooks/useFetchPost";
 import { useParams } from "next/navigation";
 
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ChatArea from "@/app/components/Chat/ChatArea";
 
 import useChatSocket from "@/app/hooks/useChatSocket";
 import InputWithSendChat from "@/app/components/Chat/InputWithSendChat";
+import { chatingWithStore } from "@/app/redux/slices/dataSlice";
 
 export default function ChatPage() {
   const [recieverData, setRecieverData] = useState();
@@ -19,15 +20,13 @@ export default function ChatPage() {
     error: recieverDataError,
     loading: recieverDataLoading,
   } = useFetchPost();
-
+  const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth?.user);
   const { id: receiverId } = useParams();
   const { messages, sendMessage, seenMessage, chatLoading } = useChatSocket(
     loggedInUser?.id,
     Number(receiverId)
   );
-
-  console.log("my Id: ", loggedInUser?.id);
 
   useEffect(() => {
     if (!receiverId || !loggedInUser?.id) return;
@@ -36,6 +35,7 @@ export default function ChatPage() {
       const details = await postFetchCall("/users/get-user-profile", {
         id: receiverId,
       });
+      dispatch(chatingWithStore(details?.data));
       setRecieverData(details?.data);
     };
     callFetch();

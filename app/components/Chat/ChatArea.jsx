@@ -1,8 +1,22 @@
+import { chatThemeUrlStore } from "@/app/redux/slices/dataSlice";
 import { Check, CheckCheck, Info } from "lucide-react";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
   const chatContainerRef = useRef();
+  const chatWallpaperUrl = useSelector(
+    (state) => state.data.chatStyles?.themeUrl
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log("selected walpaper so ");
+    const url = localStorage.getItem("wallpaper-url");
+    if (url) {
+      dispatch(chatThemeUrlStore(url));
+    }
+  }, []);
 
   useEffect(() => {
     const newestMessage = messages[0];
@@ -11,17 +25,20 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
       newestMessage.senderId !== loggedInUser?.id &&
       newestMessage.status !== "READ"
     ) {
-      console.log("✅ Marking message as seen:", newestMessage);
       seenMessage(newestMessage);
     } else {
       console.log("either I sent message or already read:", newestMessage);
     }
   }, [messages]);
-
   return (
     <div
       ref={chatContainerRef}
-      className="flex flex-col-reverse gap-3 mt-5 rounded-lg p-4 h-[70vh] overflow-y-auto bg-gray-100 pb-8"
+      className="flex flex-col-reverse gap-3 mt-5 rounded-lg p-4 h-[70vh] sm:h-[74vh] overflow-y-auto pb-8 scrollbar-hide"
+      style={{
+        backgroundImage: `url(${
+          chatWallpaperUrl ? chatWallpaperUrl : "/chat.jpg"
+        })`,
+      }}
     >
       {loading && "loading"}
       {!loading && !messages.length && (

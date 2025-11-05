@@ -1,15 +1,43 @@
+"use client";
 import BackButton from "@/app/components/BackButton";
-import { Settings2 } from "lucide-react";
+import WallpaperSelect from "@/app/components/Chat/WallpaperSelect";
+import { CircleUserRound } from "lucide-react";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function page() {
+  const chatingWith = useSelector((state) => state.data.chatingWith);
+  console.log(chatingWith, "chating withhh");
   return (
     <div className="max-w-4xl mx-auto mt-5">
       <div className="btn">
         <BackButton />
       </div>
-      <div className="name mt-5">
-        <span>Name: </span>
+      <div className="flex flex-col gap-5 mt-5">
+        <div className="img relative  h-50  bg-gray-100 rounded ">
+          {chatingWith?.profile?.avatarUrl ? (
+            <img
+              src={image}
+              alt="image group"
+              className="max-w-xl  min-h-40 mx-auto  bg-gray-300 object-cover  rounded-md"
+            />
+          ) : (
+            <p className="flex justify-center items-center h-full text-gray-600">
+              <CircleUserRound size={80} strokeWidth={0.5} />
+            </p>
+          )}
+        </div>
+        <div>Name: {chatingWith?.name}</div>
+        <div>Email: {chatingWith?.email}</div>
+        <div>
+          <h2>Bio</h2>
+          <div className="bio bg-gray-50 rounded-md p-2 min-h-10">
+            {chatingWith?.profile?.status}
+          </div>
+        </div>
+        <div>
+          <WallpaperSelect />
+        </div>
       </div>
     </div>
   );

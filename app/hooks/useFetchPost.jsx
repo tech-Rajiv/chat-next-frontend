@@ -17,8 +17,6 @@ function useFetchPost() {
         },
         body: JSON.stringify(bodyParams),
       });
-
-      console.log("response: ", response);
       const data = await response.json();
 
       if (!response.ok) {

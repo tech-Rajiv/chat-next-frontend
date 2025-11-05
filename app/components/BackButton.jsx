@@ -8,9 +8,10 @@ function BackButton() {
   return (
     <button
       onClick={() => router.back()}
-      className="cursor-pointer p-2 outline rounded-md"
+      className="cursor-pointer flex gap-2 items-center"
     >
       <ChevronLeft size={20} strokeWidth={1.5} />
+      Back
     </button>
   );
 }

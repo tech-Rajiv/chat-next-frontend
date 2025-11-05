@@ -10,7 +10,6 @@ function AllUsers({ onSelect }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("adding");
     dispatch(addFriendToStore(data));
   }, [data]);
 

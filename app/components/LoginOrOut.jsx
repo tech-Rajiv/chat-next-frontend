@@ -10,7 +10,7 @@ import { LogOut } from "lucide-react";
 export default function LoginOrOut() {
   const { logout, loading, error } = useLogout();
   const userID = useSelector((state) => state.auth?.user?.id);
-  console.log(userID, "user id form header");
+
   const router = useRouter();
   const handleLogout = () => {
     console.log("logging out...");
