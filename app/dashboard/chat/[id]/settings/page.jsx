@@ -35,9 +35,6 @@ export default function page() {
             {chatingWith?.profile?.status}
           </div>
         </div>
-        <div>
-          <WallpaperSelect />
-        </div>
       </div>
     </div>
   );

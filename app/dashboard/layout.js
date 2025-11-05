@@ -26,6 +26,9 @@ export default function DashboardLayout({ children }) {
           </div>
           <div>
             <ThemesComp />
+            <p className="flex justify-center items-end">
+              @rajiv all rights reserved
+            </p>
           </div>
         </div>
       </div>
@@ -42,12 +45,19 @@ export default function DashboardLayout({ children }) {
       <div className="flex-1 p-4 overflow-y-auto">
         {/* Top bar for mobile */}
         <div className="flex items-center justify-between md:hidden mb-3">
-          <Button
+          {/* <Button
             variant="outline"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
             <Menu className="h-5 w-5" />
-          </Button>
+          </Button> */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="underline"
+          >
+            Chat
+          </button>
+          <div>Status</div>
         </div>
 
         {children}

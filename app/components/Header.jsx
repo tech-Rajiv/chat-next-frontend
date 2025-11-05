@@ -1,6 +1,8 @@
 import { MessageCircleMore } from "lucide-react";
 
 import LoginOrOut from "./LoginOrOut";
+import CreateNewGroup from "./Chat/CreateNewGroup";
+import ProfileComp from "./ProfileComp";
 
 export default function Header() {
   return (
@@ -9,7 +11,8 @@ export default function Header() {
         Chat App
         <MessageCircleMore size={20} />
       </h2>
-      <LoginOrOut />
+      <ProfileComp />
+      {/* <LoginOrOut /> */}
     </div>
   );
 }

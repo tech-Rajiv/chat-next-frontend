@@ -80,16 +80,16 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
 
                       <span>
                         {msg.status === "PENDING" && isSender && (
-                          <Info size={10} />
+                          <Info size={15} />
                         )}
                         {msg.status === "SENT" && isSender && (
-                          <Check size={10} />
+                          <Check size={15} />
                         )}
                         {msg.status === "DELIVERED" && isSender && (
-                          <CheckCheck size={16} />
+                          <CheckCheck size={15} />
                         )}
                         {msg.status === "READ" && isSender && (
-                          <CheckCheck size={10} color="blue" />
+                          <CheckCheck size={15} color="blue" />
                         )}
                       </span>
                     </div>
