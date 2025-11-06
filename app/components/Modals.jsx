@@ -19,10 +19,10 @@ function Modals({ name, heading, content, btnYesName, btnNoName, btnYesFn }) {
   return (
     <div>
       <AlertDialog>
-        <AlertDialogTrigger>
+        <AlertDialogTrigger asChild>
           <Button
-            variant={"destructive"}
-            className="p cursore-pointer flex gap-1 items-center"
+            variant={"secondary"}
+            className="p cursor-pointer text-red-500 hover:bg-red-50 border bg-red-50 border-red-100 flex gap-1 items-center"
           >
             {name}
             <LogOut size={20} />

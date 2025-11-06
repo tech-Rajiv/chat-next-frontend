@@ -4,8 +4,8 @@ import { CircleUser, User } from "lucide-react";
 
 function Tabs({ onSelect }) {
   return (
-    <div className="p-5">
-      <h2 className="mb-2 font-medium items-center flex gap-2">
+    <div className="mt-2">
+      <h2 className="mb-5 font-medium items-center flex gap-2">
         <CircleUser size={20} />
         Chat with...
       </h2>

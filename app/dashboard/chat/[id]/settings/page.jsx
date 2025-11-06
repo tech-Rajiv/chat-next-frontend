@@ -29,12 +29,13 @@ export default function page() {
         </div>
         <div>Name: {chatingWith?.name}</div>
         <div>Email: {chatingWith?.email}</div>
-        <div>
+        <div>Bio: {chatingWith?.profile?.status ?? "No bio for now"}</div>
+        {/* <div>
           <h2>Bio</h2>
-          <div className="bio bg-gray-50 rounded-md p-2 min-h-10">
-            {chatingWith?.profile?.status}
+          <div className="bio bg-gray-50 rounded-md  min-h-10 text-gray-600">
+            {chatingWith?.profile?.status ?? "no bio right now"}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

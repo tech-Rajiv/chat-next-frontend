@@ -6,8 +6,7 @@ import BackButton from "./BackButton";
 function Settings() {
   return (
     <div className="max-w-4xl mx-auto">
-      <BackButton />
-      <h2 className="mb-2 font-medium justify-center items-center flex gap-2">
+      <h2 className="mt-10 font-medium justify-center items-center flex gap-2">
         <CircleUser size={20} />
         Settings
       </h2>

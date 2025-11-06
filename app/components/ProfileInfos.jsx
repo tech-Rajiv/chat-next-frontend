@@ -20,7 +20,7 @@ function ProfileInfos() {
     <div className="py-5 max-w-xl mx-auto">
       <div className="grid gap-8">
         <div className=" flex flex-col gap-3">
-          <div className="in flex flex-col gap-2 mt-5">
+          <div className="in flex flex-col gap-2 ">
             <h2 className="flex justify-between gap-2">
               {" "}
               <p>Proifle picture</p>

@@ -1,11 +1,11 @@
 import React from "react";
 import WallpaperSelect from "./Chat/WallpaperSelect";
 
-function ThemesComp() {
+function ThemesComp({ onSelect }) {
   return (
-    <div className="p-5">
+    <div className="my-5">
       <h2 className="mb-2 font-medium items-center flex gap-2">Chat Themes</h2>
-      <WallpaperSelect />
+      <WallpaperSelect onSelect={onSelect} />
     </div>
   );
 }

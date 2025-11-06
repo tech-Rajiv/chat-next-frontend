@@ -1,14 +1,21 @@
 import { chatThemeUrlStore } from "@/app/redux/slices/dataSlice";
-import { Check, CheckCheck, Info } from "lucide-react";
+import { Check, CheckCheck, EllipsisVertical, Eye, Info } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import MessageInfo from "./MessageInfo";
 
 function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
   const chatContainerRef = useRef();
   const chatWallpaperUrl = useSelector(
     (state) => state.data.chatStyles?.themeUrl
   );
+  const [selectedMessageIdForInfo, setSelectedMessageIdForInfo] = useState();
   const dispatch = useDispatch();
+
+  const handleMessageSelectedForInfo = (msgId) => {
+    console.log(msgId);
+    setSelectedMessageIdForInfo(msgId);
+  };
 
   useEffect(() => {
     console.log("selected walpaper so ");
@@ -52,24 +59,33 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
           return (
             <div
               key={i}
-              className={`flex ${isSender ? "justify-end" : "justify-start"}`}
+              onClick={() => handleMessageSelectedForInfo(msg?.id)}
+              className={`flex items-end cursor-pointer ${
+                isSender ? "justify-end" : "justify-start"
+              }`}
             >
+              {" "}
+              <span>
+                {selectedMessageIdForInfo === msg?.id && isSender && (
+                  <MessageInfo msg={msg} you={true} />
+                )}
+              </span>
               <div
-                className={`relative max-w-[70%] px-4 py-2 rounded-2xl  text-sm leading-relaxed
+                className={`relative max-w-[90%] px-4 py-2 rounded-2xl  text-sm leading-relaxed
                   ${
                     isSender
                       ? "bg-green-500 text-white rounded-br-none"
                       : "bg-white text-gray-800 rounded-bl-none"
                   }`}
               >
-                <p>{msg?.text}</p>
+                <p className="">{msg?.text}</p>
                 <div
                   className={`absolute ${
                     isSender ? "right-2" : "left-2"
                   } text-[10px] bottom-[-16] text-gray-700`}
                 >
                   {i === 0 ? (
-                    <div className="infos flex items-center gap-2">
+                    <div className="infos flex items-center w-full gap-2">
                       <span>
                         {new Date(msg?.createdAt).toLocaleTimeString([], {
                           hour: "2-digit",
@@ -89,7 +105,11 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
                           <CheckCheck size={15} />
                         )}
                         {msg.status === "READ" && isSender && (
-                          <CheckCheck size={15} color="blue" />
+                          // <CheckCheck size={15} color="blue" />
+                          <div className="flex gap-1 items-center">
+                            seen
+                            <Eye size={16} strokeWidth={1.5} />
+                          </div>
                         )}
                       </span>
                     </div>
@@ -97,7 +117,19 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
                     ""
                   )}
                 </div>
+                {i == 4 ? (
+                  <span className="text-xs text-black bg-gray-100 px-3 rounded-full mt-5">
+                    Edited
+                  </span>
+                ) : (
+                  ""
+                )}
               </div>
+              {/* <span>
+                {selectedMessageIdForInfo === msg?.id && !isSender && (
+                  <MessageInfo msg={msg} />
+                )}
+              </span> */}
             </div>
           );
         })}

@@ -10,8 +10,7 @@ function BackButton() {
       onClick={() => router.back()}
       className="cursor-pointer flex gap-2 items-center"
     >
-      <ChevronLeft size={20} strokeWidth={1.5} />
-      Back
+      <ChevronLeft size={28} strokeWidth={1.5} />
     </button>
   );
 }
