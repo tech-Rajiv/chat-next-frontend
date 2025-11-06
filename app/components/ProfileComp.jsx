@@ -8,6 +8,7 @@ import { ArrowUpRight, CircleUser } from "lucide-react";
 import LoginOrOut from "./LoginOrOut";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function ProfileComp() {
   const userDetails = useSelector((state) => state.auth?.user);
@@ -16,7 +17,10 @@ function ProfileComp() {
     <div>
       <Popover>
         <PopoverTrigger asChild>
-          <CircleUser size={24} strokeWidth={1.5} />
+          {/* <CircleUser size={24} strokeWidth={1.5} /> */}
+          <div className="img w-8 h-8 rounded-full bg-gray-200 border border-2 flex items-center justify-center text-sm">
+            {userDetails?.name?.slice(0, 2).toUpperCase()}
+          </div>
         </PopoverTrigger>
         <PopoverContent className="max-w-100 mr-4 sm:mr-5">
           <div className="grid gap-4 p-1">
@@ -40,7 +44,9 @@ function ProfileComp() {
                     <span>Edit your profile here...</span>
                   </button> */}
                 </div>
-                <div className="img w-14 h-14 rounded-full bg-gray-200 border border-2"></div>
+                <div className="img w-14 h-14 rounded-full bg-gray-200 border border-2 flex items-center justify-center">
+                  {userDetails?.name?.slice(0, 2).toUpperCase()}
+                </div>
               </div>
             ) : (
               <p className="mt-2 text-muted-foreground text-sm flex gap-2">

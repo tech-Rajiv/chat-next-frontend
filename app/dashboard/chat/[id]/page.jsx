@@ -23,10 +23,8 @@ export default function ChatPage() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth?.user);
   const { id: receiverId } = useParams();
-  const { messages, sendMessage, seenMessage, chatLoading } = useChatSocket(
-    loggedInUser?.id,
-    Number(receiverId)
-  );
+  const { messages, sendMessage, seenMessage, chatLoading, onlineUsers } =
+    useChatSocket(loggedInUser?.id, Number(receiverId));
 
   useEffect(() => {
     if (!receiverId || !loggedInUser?.id) return;
@@ -44,7 +42,11 @@ export default function ChatPage() {
   return (
     <div className="max-w-4xl mx-auto ">
       <div className="">
-        <HeaderChat recieverData={recieverData} loading={recieverDataLoading} />
+        <HeaderChat
+          recieverData={recieverData}
+          loading={recieverDataLoading}
+          onlineUsers={onlineUsers}
+        />
 
         <ChatArea
           messages={messages}

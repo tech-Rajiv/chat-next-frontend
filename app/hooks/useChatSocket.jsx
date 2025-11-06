@@ -7,6 +7,7 @@ export default function useChatSocket(loggedInUserId, receiverId) {
   const [chatLoading, setChatLoading] = useState(false);
   const socketRef = useRef(null);
   const { postFetchCall } = useFetchPost();
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   // 🔹 Load old messages
   const fetchOldMessages = async (roomKey) => {
@@ -30,6 +31,13 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     });
 
     socketRef.current = socket;
+
+    socket.emit("user_connected", loggedInUserId);
+    // 🟢 Listen for online user list from backend
+    socket.on("online_users", (users) => {
+      console.log("got online res from socket", users);
+      setOnlineUsers(users);
+    });
 
     const roomKey = [loggedInUserId, receiverId].sort().join("_");
     socket.emit("join_room", roomKey);
@@ -133,5 +141,5 @@ export default function useChatSocket(loggedInUserId, receiverId) {
     socketRef.current.emit("seen_message", { roomKey, messageId, status });
   };
 
-  return { messages, sendMessage, seenMessage, chatLoading };
+  return { messages, sendMessage, seenMessage, chatLoading, onlineUsers };
 }

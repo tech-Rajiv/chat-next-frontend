@@ -59,7 +59,7 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
           return (
             <div
               key={i}
-              onClick={() => handleMessageSelectedForInfo(msg?.id)}
+              // onClick={() => handleMessageSelectedForInfo(msg?.id)}
               className={`flex items-end cursor-pointer ${
                 isSender ? "justify-end" : "justify-start"
               }`}
@@ -99,7 +99,11 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
                           <Info size={15} />
                         )}
                         {msg.status === "SENT" && isSender && (
-                          <Check size={15} />
+                          <div className="flex  items-center justify-center">
+                            sent
+                            <Check size={15} strokeWidth={1.5} />
+                            {/* <Eye size={16} strokeWidth={1.5} /> */}
+                          </div>
                         )}
                         {msg.status === "DELIVERED" && isSender && (
                           <CheckCheck size={15} />

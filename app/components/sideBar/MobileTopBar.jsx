@@ -1,8 +1,9 @@
 import { TextAlignJustify } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 function MobileTopBar({ onSelect }) {
+  const pathname = usePathname();
   const tabs2 = [
     {
       name: "People",
@@ -30,6 +31,7 @@ function MobileTopBar({ onSelect }) {
 
   const [selectedTab, setSelectedTab] = useState();
   const router = useRouter();
+
   return (
     <div className="flex items-center gap-5 md:hidden mb-8 mt-3">
       <TextAlignJustify
