@@ -85,7 +85,7 @@ function ChatArea({ messages, loggedInUser, seenMessage, loading }) {
                   } text-[10px] bottom-[-16] text-gray-700`}
                 >
                   {i === 0 ? (
-                    <div className="infos flex items-center w-full gap-2">
+                    <div className="infos flex items-center whitespace-nowrap white w-full gap-2">
                       <span>
                         {new Date(msg?.createdAt).toLocaleTimeString([], {
                           hour: "2-digit",

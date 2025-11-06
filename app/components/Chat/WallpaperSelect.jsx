@@ -26,7 +26,7 @@ function WallpaperSelect({ onSelect }) {
   return (
     <div className="mt-5">
       <div className="wallpaper mt-2 grid grid-cols-3 gap-2">
-        {allWallpapers?.map((wallpaper) => (
+        {allWallpapers?.map((wallpaper, i) => (
           <div key={wallpaper} className={`cover relative shrink-0 p-0`}>
             <img
               src={wallpaper}

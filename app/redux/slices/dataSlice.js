@@ -4,7 +4,7 @@ const initialState = {
   friends: [],
   chatingWith: {},
   chatStyles: {
-    themeUrl: "/chat.jpg",
+    themeUrl: "/chat.png",
   },
 };
 
